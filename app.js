@@ -128,7 +128,7 @@ app.get("/admin", function(req, res) {
                         totalRequests = totalRequests + user.recieveDates.length
                         totalDonations = totalDonations + user.donationDates.length
                     })
-                    res.render("admin", {userEmail: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
+                    res.render("admin", {Users: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
                 }
             }
         })
