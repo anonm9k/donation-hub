@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<div class="jumbotron"  style="position: relative;">
+    <div class="container">
+        <p class="h3" style="padding-bottom: 1%; font-family: arial;">Select blood type: </p>
+
+        <p>Username: <%= username %></p>
+        <p>Email: <%= email %></p>
+        <p>Address: <%= address %></p>
+        <p>Phone number: <%= phone %></p>
+        <p>Blood group: <%= bgroup %></p>
+        <p>Last time you donated <%= donationDates %></p>
+        <p>Last time you recieved <%= recieveDates %></p>
+        
+    </div>
+    <div class="jumbotron">
+        <a href="/logout" class="btn btn-outline-secondary col-sm-2" role="button">Logout</a>
+        
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Request
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <p>Hello</p>
+            </div>
+          </div>
+        
+        <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
+        <a href="/resetpw" class="btn btn-outline-info col-sm-2" role="button">Reset password</a>
+    </div>
+  </div>
+
+<%- include('partials/footer') %>

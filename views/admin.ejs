@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<div class="container">
+<div class="jumbotron"  style="position: relative;">
+    <div class="container">
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total users: </p>
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of requests: </p>
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of donations: </p>
+    </div>
+    <div class="row">
+        <div class="col-sm">Email</div>
+        <div class="col-sm">Address</div>
+        <div class="col-sm">Blood group</div>
+        <div class="col-sm">Total requests/donations</div>
+    </div>
+
+    <% userEmail.forEach(function(user) { %>
+        <p><%= user.email %></p>
+    <% }) %> 
+
+    <div class="jumbotron">
+        <a href="/logout" class="btn btn-outline-secondary col-sm-2" role="button">Logout</a>
+        <a href="/resetpw" class="btn btn-outline-info col-sm-2" role="button">Reset password</a>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

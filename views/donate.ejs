@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+<div class="jumbotron"  style="position: relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p>
+
+                <p>Username: <%= username %></p>
+                <p>Email: <%= email %></p>
+                <p>Address: <%= address %></p>
+                <p>Phone number: <%= phone %></p>
+                <p>Blood group: <%= bgroup %></p>
+                <p>Last time you donated <%= donationDates.slice(-1)[0] %></p>
+                <p>Last time you recieved <%= recieveDates.slice(-1)[0] %></p>
+                
+            </div>
+            <div class="col-sm">
+                <p class="h3" style="font-family: arial;">Your donations and requests history:</p>
+                <canvas id="chart" height="200" width="300"></canvas>
+                
+                <script>
+                    //document.getElementById("eachMonthDonates").innerText;
+                    var data = [0,0,0,1,4,1,2,4,1,2,7,8]
+                    const ctx = document.getElementById('chart').getContext('2d');
+                    const myLineChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','Aug','Sep','Oct','Nov','Dec'],
+                                        datasets: [{
+                                            label: 'Total requests per month',
+                                            borderColor: 'rgb(211,33,45)',
+                                            data: data
+                                        },
+                                        {
+                                            label: 'Total donations per month',
+                                            borderColor: 'rgb(132,222,2)',
+                                            data: [0,0,0,0,13,0,12,0,0,20,0,0]
+                                        }]
+                                    },
+                            options: {}
+                        });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <a href="/logout" class="btn btn-outline-secondary col-sm-2" role="button">Logout</a>
+        <a href="/requested" class="btn btn-outline-danger col-sm-2" role="button">Request</a>
+        <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
+        <a href="/updateinfo" class="btn btn-outline-info col-sm-2" role="button">Update info</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
