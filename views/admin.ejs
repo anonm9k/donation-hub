@@ -2,9 +2,9 @@
 <div class="container">
 <div class="jumbotron"  style="position: relative;">
     <div class="container">
-        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total users: </p>
-        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of requests: </p>
-        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of donations: </p>
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total users: <%= totalUser-1 %></p>
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of requests: <%= totalRequests %> </p>
+        <p class="lead" style="padding-bottom: 1%; font-family: arial;">Total number of donations: <%= totalDonations %></p>
     </div>
     <div class="row">
         <div class="col-sm">Email</div>
@@ -12,9 +12,13 @@
         <div class="col-sm">Blood group</div>
         <div class="col-sm">Total requests/donations</div>
     </div>
-
     <% userEmail.forEach(function(user) { %>
-        <p><%= user.email %></p>
+        <div class="row">
+            <div class="col-sm"><p><%= user.email %></p></div>
+            <div class="col-sm"><p><%= user.address %></p></div>
+            <div class="col-sm"><p><%= user.bgroup %></p></div>
+            <div class="col-sm"><p>para</p></div>
+        </div>
     <% }) %> 
 
     <div class="jumbotron">

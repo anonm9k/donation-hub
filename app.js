@@ -54,7 +54,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // get requests
-totalUser = null;
 app.get("/", function(req, res) {
     res.render("home");
 })
@@ -68,7 +67,7 @@ app.get("/register", function(req, res) {
 })
 
 app.get("/donate", function(req, res) {
-    // iterate over recieved
+    // iterate over recieved & donates
     eachMonthRecieves = [0,0,0,0,0,0,0,0,0,0,0,0]
     req.user.recieveDates.forEach(element => {
         eachMonthRecieves[element[5]-1] = eachMonthRecieves[element[5]-1] + 1
@@ -116,12 +115,20 @@ app.get("/admin", function(req, res) {
         User.count({}, function(err, count) {
             if (err) { console.log(err)}
         })
-        User.find({"email": {$ne: null}}, function(err, foundUser) {
+        User.find({"email": {$exists: true}}, function(err, foundUser) {
             if (err) {
                 console.log(err)
             } else {
                 if (foundUser) {
-                    res.render("admin", {userEmail: foundUser})
+                    totalUser = null;
+                    totalRequests = null;
+                    totalDonations = null;
+                    foundUser.forEach(function(user) {
+                        totalUser = totalUser + 1;
+                        totalRequests = totalRequests + user.recieveDates.length
+                        totalDonations = totalDonations + user.donationDates.length
+                    })
+                    res.render("admin", {userEmail: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
                 }
             }
         })
