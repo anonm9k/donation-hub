@@ -32,14 +32,17 @@ mongoose.set("useCreateIndex", true)
 
 // creating db schema
 const userSchema = new mongoose.Schema ({
+    dateJoined: String,
     email: String,
+    username: String,
     password: String,
     phone: String,
     address: String,
-    username: String,
+    city: String,
     bgroup: String,
     donationDates: Array,
-    recieveDates: Array
+    recieveDates: Array,
+    isAdmin: Boolean
   });
 
 // use passport as plugin for schema
@@ -78,8 +81,7 @@ app.get("/donate", function(req, res) {
     });
     // req.user.id is the current user id
     if (req.isAuthenticated()) {
-        res.render("donate", {email: req.user.email, username:req.user.username, bgroup:req.user.bgroup, address:req.user.address, phone:req.user.phone,
-             donationDates:req.user.donationDates, recieveDates: req.user.recieveDates, eachMonthDonates:eachMonthDonates, eachMonthRecieves:eachMonthRecieves});
+        res.render("donate", {user:req.user, eachMonthDonates:eachMonthDonates, eachMonthRecieves:eachMonthRecieves});
     } else {
         res.redirect("/login");
     }
@@ -140,13 +142,23 @@ app.get("/admin", function(req, res) {
 // post requests
 
 app.post("/register", function(req, res) {
-
+    const today = new Date()
+    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if (req.body.adminKey == "iamadmin") {
+        isAdminValue = true;
+    } else {
+        isAdminValue = false;
+    }
     User.register({
+        dateJoined: datentime,
         email: req.body.email,
         phone: req.body.phone,
         address: req.body.address,
+        city: req.body.city,
         bgroup: req.body.bgroup,
         username: req.body.username, 
+        isAdmin: isAdminValue
         }, 
         req.body.password, function(err, user) {
         if (err) {
@@ -154,7 +166,7 @@ app.post("/register", function(req, res) {
             res.redirect("/register");
         } else {
             passport.authenticate("local") (req, res, function () {
-                if (req.body.username == "admin") {
+                if (req.body.adminKey == "iamadmin") {
                     res.redirect("/admin")
                 } else {
                 res.redirect("/donate");
@@ -166,12 +178,8 @@ app.post("/register", function(req, res) {
 
 app.post("/login", function (req, res) {
     const user = new User({
-        email: req.body.email,
-        password: req.body.password,
-        phone: req.body.phone,
-        address: req.body.address,
-        bgroup: req.body.bgroup,
         username: req.body.username,
+        password: req.body.password,
     })
 
     req.login(user, function(err) {
@@ -179,7 +187,7 @@ app.post("/login", function (req, res) {
             console.log(err);
         } else {
             passport.authenticate("local", {failureRedirect: '/login'}) (req,res, function() {
-                if (req.body.username == "admin") {
+                if (req.user.isAdmin == true) {
                     res.redirect("/admin")
                 } else {
                 res.redirect("/donate"); }

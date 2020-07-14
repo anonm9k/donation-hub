@@ -11,13 +11,13 @@
             <div class="col-sm">
                 <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p>
 
-                <p>Username: <%= username %></p>
-                <p>Email: <%= email %></p>
-                <p>Address: <%= address %></p>
-                <p>Phone number: <%= phone %></p>
-                <p>Blood group: <%= bgroup %></p>
-                <p>Last time you donated <%= donationDates.slice(-1)[0] %></p>
-                <p>Last time you recieved <%= recieveDates.slice(-1)[0] %></p>
+                <p>Username: <%= user.username %></p>
+                <p>Email: <%= user.email %></p>
+                <p>Address and City: <%= user.address %>, <%= user.city %></p>
+                <p>Phone number: <%= user.phone %></p>
+                <p>Blood group: <%= user.bgroup %></p>
+                <p>Last time you donated <%= user.donationDates.slice(-1)[0] %></p>
+                <p>Last time you recieved <%= user.recieveDates.slice(-1)[0] %></p>
                 
             </div>
             <div class="col-sm">
