@@ -1,13 +1,19 @@
 <%- include('partials/header') %>
+<nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
+    <a href="/logout" class="btn btn-outline-danger btn-xs col-sm-2" role="button" style="width:50%"><b>Logout</b></a>
+  </nav>
+  <hr>
 <div class="container">
 <div style="position: relative;">
-    <div class="container">
+    <div class="container-fluid">
     <div class="row">
-        <div class="col-sm">
+        <div class="col-sm" style="margin-top: 5%;">
         <p class="h1" style="padding-bottom: 3%; font-family: Roboto Condensed;"><b>Dashboard</b></p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <%= totalUser-1 %></p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <%= totalRequests %> </p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <%= totalDonations %></p>
+        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser-1 %></span></p>
+        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <span style="color:#c72c41"><%= totalRequests %></span> </p>
+        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <span style="color:#ee4540"><%= totalDonations %></span></p>
         </div>
         <div class="col-sm">
             <canvas id="chart" height="200" width="300"></canvas>
@@ -35,18 +41,18 @@
                 </script>
         </div>
     </div>
-    <table class="table">
+    <table class="table" style="margin-top: 5%;">
         <thead class="thead-dark">
-        <th scope="col">Username</th>
-        <th scope="col">Email</th>
-        <th scope="col">Address</th>
-        <th scope="col">Blood group</th>
-        <th scope="col">Total requests/donations</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Email</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Total requests/donations</th>
         </thead>
         <tbody>
             <% Users.forEach(function(user) { %>
                 <tr>
-                <th scope="row"><%= user.username %></th>
+                <th scope="row" style="color:#000000; font-family: Roboto Condensed;"><%= user.username %></th>
                 <td><%= user.email %></td>
                 <td><%= user.address %></td>
                 <td><%= user.bgroup %></td>
@@ -66,8 +72,7 @@
     
 
     <div class="jumbotron">
-        <a href="/logout" class="btn btn-outline-secondary col-sm-2" role="button">Logout</a>
-        <a href="/resetpw" class="btn btn-outline-info col-sm-2" role="button">Reset password</a>
+        <a href="/updateinfo" class="btn btn-outline-info col-sm-2" role="button">Update info</a>
     </div>
   </div>
 </div>

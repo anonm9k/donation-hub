@@ -1,4 +1,10 @@
 <%- include('partials/header') %>
+<nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
+    <a href="/logout" class="btn btn-outline-danger btn-xs col-sm-2" role="button" style="width:50%"><b>Logout</b></a>
+  </nav>
+  <hr>
 <div class="jumbotron"  style="position: relative;">
     <div class="container">
         <div class="row">
@@ -44,7 +50,6 @@
         </div>
     </div>
     <div class="jumbotron">
-        <a href="/logout" class="btn btn-outline-secondary col-sm-2" role="button">Logout</a>
         <a href="/requested" class="btn btn-outline-danger col-sm-2" role="button">Request</a>
         <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
         <a href="/updateinfo" class="btn btn-outline-info col-sm-2" role="button">Update info</a>

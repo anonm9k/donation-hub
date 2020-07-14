@@ -11,3 +11,12 @@ body {
   background-color:#d4d4d4;
   padding-top: 4%;
 }
+
+#notification-icon {
+  color: #204051;
+  transition:0.3s;
+}
+#notification-icon:hover {
+  color: red;
+  transition:0.3s;
+}
