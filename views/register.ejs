@@ -4,7 +4,7 @@
 </nav>
 <hr>
 <div class="container mt-5">
-    <h1 style="color:#eb3f39">Register</h1>
+    <h1 style="color:#eb3f39; font-family: Roboto Condensed;"><b>Register</b></h1>
   
     <div class="row">
       <div class="col-sm-8">
@@ -45,23 +45,17 @@
               </div>
               <div class="form-group row">
                 <label for="bgroup" class="col-sm-3 col-form-label">Blood Group:</label>
-                <div class="col-md-12"  style="padding-left: 10%;">
-                    <input type="radio" class="form-check-input" name="bgroup" id="O-" value="O negative">
-                    <label class="form-check-label" for="O-">O negative</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="O+" value="O positive">
-                    <label class="form-check-label" for="O+">O positive</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="A-" value="A negative">
-                    <label class="form-check-label" for="A-">A negative</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="A+" value="A positive">
-                    <label class="form-check-label" for="A+">A positive</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="B-" value="B negative">
-                    <label class="form-check-label" for="B-">B negative</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="B+" value="B positive">
-                    <label class="form-check-label" for="B+">B positive</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="AB-" value="AB negative">
-                    <label class="form-check-label" for="AB-">AB negative</label><br>
-                    <input type="radio" class="form-check-input" name="bgroup" id="AB+" value="AB positive">
-                    <label class="form-check-label" for="AB+">AB positive</label><br>
+                <div class="col-md-9">
+                  <select name="bgroup" class="selectpicker" style="margin-top: 2%;" data-style="btn-outline-danger" title="Choose blood group">
+                    <option value="O Negative">O Negative</option>
+                    <option value="O Positive">O Positive</option>
+                    <option value="A Negative">A Negative</option>
+                    <option value="A Positive">A Positive</option>
+                    <option value="B Negative">B Negative</option>
+                    <option value="B Positive">B Positive</option>
+                    <option value="AB Negative">AB Negative</option>
+                    <option value="AB Positive">AB Positive</option>
+                  </select>
                 </div>
               </div>
               <button type="submit" class="btn btn-danger">Register</button>
