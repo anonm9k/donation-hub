@@ -1,8 +1,27 @@
 <%- include('partials/header') %>
+<div class="request-form">
+    <div class="jumbotron centered">
+        <div class="container">
+            <a href="#" class="btn btns close" role="button">Close</a>
+            <form action="/requested">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Your Location">
+                    <input class="form-control" type="text" placeholder="Blood group">
+                    <button class="btn-outline-danger" type="submit">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <!-- Navbar -->
 <nav class="navbar navbar-dark">
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
-    <a href="/logout" class="btn btn-outline-danger btn-xs col-sm-2" role="button" style="width:50%"><b>Logout</b></a>
+    <div>
+        <a href="/updateinfo" class="btn btn-outline-info btn-sm" role="button"><b>Update info</b></a>
+        <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
+    </div>
   </nav>
   <hr>
 <div class="jumbotron"  style="position: relative;">
@@ -10,20 +29,18 @@
         <div class="row">
             <div class="col-sm">
                 <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p>
-
-                <p>Username: <%= user.username %></p>
-                <p>Email: <%= user.email %></p>
-                <p>Address and City: <%= user.address %>, <%= user.city %></p>
-                <p>Phone number: <%= user.phone %></p>
-                <p>Blood group: <%= user.bgroup %></p>
+                <p><b>Username: </b><%= user.username %></p>
+                <p><b>Email: </b><%= user.email %></p>
+                <p><b>Address and City: </b><%= user.address %>, <%= user.city %></p>
+                <p><b>Phone number: </b><%= user.phone %></p>
+                <p><b>Blood group: </b><%= user.bgroup %></p>
                 <p>Last time you donated <%= user.donationDates.slice(-1)[0] %></p>
                 <p>Last time you recieved <%= user.recieveDates.slice(-1)[0] %></p>
-                
             </div>
             <div class="col-sm">
                 <p class="h3" style="font-family: arial;">Your donations and requests history:</p>
+                <!-- Chart canvas -->
                 <canvas id="chart" height="200" width="300"></canvas>
-                
                 <script>
                     //document.getElementById("eachMonthDonates").innerText;
                     var data = [0,0,0,1,4,1,2,4,1,2,7,8]
@@ -50,10 +67,45 @@
         </div>
     </div>
     <div class="jumbotron">
-        <a href="/requested" class="btn btn-outline-danger col-sm-2" role="button">Request</a>
         <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
-        <a href="/updateinfo" class="btn btn-outline-info col-sm-2" role="button">Update info</a>
+        <a href="#" class="btn btn-outline-danger col-sm-2 btns request" role="button">Request</a>
     </div>
 </div>
+</div>
 
+<!-- request form slide -->
+<script type="text/javascript">
+    (function () {
+        var windowH = $(window).height(),
+        docElement = $(document),
+        requestFormPage = $('.request-form'),
+        mainPage = $('.content'),
+        btns = $('.btns'),
+        animSpeed = 500;
+
+        requestFormPage.css({
+            height: windowH + 'px',
+            top :-windowH + 'px'
+        })
+
+        btns.on('click', function(e) {
+            if ( $(this).hasClass('request') ) {
+                requestFormPage.animate({'top': 0}, animSpeed)
+                mainPage.animate({'margin-top': windowH + 'px'}, animSpeed)
+            } else if ( $(this).hasClass('close') ) {
+                requestFormPage.animate({'top': -windowH + 'px'}, animSpeed)
+                mainPage.animate({'margin-top': 0}, animSpeed)
+            }
+            e.preventDefault();
+        })
+
+        docElement.on('scroll', function() {
+            if ($(this).scrollTop() > requestFormPage.height() && requestFormPage.css('top') === '0px') {
+                requestFormPage.css('top', -windowH + 'px');
+                mainPage.css('margin-top', 0);
+                docElement.scrollTop(0);
+            }
+        })
+    })();
+</script>
 <%- include('partials/footer') %>
