@@ -42,7 +42,8 @@ const userSchema = new mongoose.Schema ({
     bgroup: String,
     donationDates: Array,
     recieveDates: Array,
-    isAdmin: Boolean
+    isAdmin: Boolean,
+    hospitalName: String
   });
 
 // use passport as plugin for schema
@@ -114,6 +115,10 @@ app.get("/donated", function(req, res) {
 
 app.get("/admin", function(req, res) {
     if (req.isAuthenticated()) {
+
+        if( req.user.hospitalName == "") {
+            
+        }
         User.count({}, function(err, count) {
             if (err) { console.log(err)}
         })
@@ -139,6 +144,10 @@ app.get("/admin", function(req, res) {
         res.redirect("/login");
     }
 })
+
+app.get("/updateinfo", function(req, res) {
+    res.render("updateinfo")
+})
 // post requests
 
 app.post("/register", function(req, res) {
@@ -158,7 +167,8 @@ app.post("/register", function(req, res) {
         city: req.body.city,
         bgroup: req.body.bgroup,
         username: req.body.username, 
-        isAdmin: isAdminValue
+        isAdmin: isAdminValue,
+        hospitalName: ""
         }, 
         req.body.password, function(err, user) {
         if (err) {
@@ -196,6 +206,15 @@ app.post("/login", function (req, res) {
     })
 })
 
+app.post("/updateinfo", function(req, res) {
+    req.user.changePassword(req.body.oldpassword, req.body.newpassword, function(err) {
+        if(err) {
+            console.log(err)
+        } else {
+            res.status(500).json({message: 'Done!'});
+        }
+    })
+})
 // opening port to listen
 let port = process.env.PORT;
 if (port == null || port == "") {

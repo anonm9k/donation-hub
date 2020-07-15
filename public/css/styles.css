@@ -27,5 +27,9 @@ body {
 
 .request-form {
   position: absolute;
-  background-color: #ffffff;
+  width:100%;
+}
+
+.request-form form {
+
 }
