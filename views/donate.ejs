@@ -1,13 +1,14 @@
 <%- include('partials/header') %>
+<!-- request slide form -->
 <div class="request-form">
     <div class="jumbotron centered" style="background-color: #db5461;">
         <div class="container">
-            <a href="#" class="btn-primary btns close" role="button">Close</a>
+            <a href="#" class="btn btn-primary btns close" role="button">Close</a>
             <form action="/requested">
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Your Location">
                     <input class="form-control" type="text" placeholder="Blood group">
-                    <button class="btn-outline-danger" type="submit">Confirm</button>
+                    <button class="btn btn-outline-danger" type="submit">Confirm</button>
                 </div>
             </form>
         </div>
@@ -19,16 +20,20 @@
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
     <div>
-        <a href="/updateinfo" class="btn btn-outline-info " role="button"><b>Update info</b></a>
-        <a href="/logout" class="btn btn-outline-danger " role="button"><b>Logout</b></a>
+        <button id="open-reset-modal" class="btn btn-warning btn-sm"><b>Reset password</b></button>
+        <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
     </div>
   </nav>
   <hr>
+  <!-- Content user info-->
 <div class="jumbotron"  style="position: relative;">
     <div class="container">
         <div class="row">
-            <div class="col-sm">
-                <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p>
+            <div class="col-sm" style="margin-top: 5%;">
+                <div class="row">
+                <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p> 
+                <button id="open-update-modal" class="btn btn-outline-info btn-sm" style="height: 50%; margin-left: 2%;">Update</button>
+                </div>
                 <p><b>Username: </b><%= user.username %></p>
                 <p><b>Email: </b><%= user.email %></p>
                 <p><b>Address and City: </b><%= user.address %>, <%= user.city %></p>
@@ -108,4 +113,61 @@
         })
     })();
 </script>
+
+<!-- update modal form -->
+<div class="form-modal">
+    <div class="form-modal-content">
+        <form action="/updateinfo" method="post">
+            <%- include('partials/form') %>
+              <a href="#" role="button" class="btn btn-light" id="close-update-modal">Cancel</a>
+              <button type="submit" class="btn btn-danger">Update</button>
+          </form>
+        <script type="text/javascript">
+            document.getElementById("open-update-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".form-modal").style.display = 'flex';
+                });
+            document.getElementById("close-update-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".form-modal").style.display = 'none';
+                });
+        </script>
+    </div>
+</div>
+
+<!-- password reset modal form -->
+<div class="reset-modal">
+    <div class="reset-modal-content">
+        <form action="/resetPassword" method="post">
+            <div class="form-group row">
+                <label for="oldpassword" class="col-sm-2 col-form-label">Old Password</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" placeholder="Enter old password" name="oldpassword">
+                </div>
+              </div>
+            <div class="form-group row">
+              <label for="newpassword" class="col-sm-2 col-form-label">New Password</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Enter new password" name="newpassword">
+              </div>
+            </div>
+            <a href="#" role="button" class="btn btn-light" id="close-reset-modal">Cancel</a>
+              <button type="submit" class="btn btn-danger">Update</button>
+        </form>
+        <script type="text/javascript">
+            document.getElementById("open-reset-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".reset-modal").style.display = 'flex';
+                });
+            document.getElementById("close-reset-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".reset-modal").style.display = 'none';
+                });
+        </script>
+    </div>
+</div>
+
+
+
+
 <%- include('partials/footer') %>

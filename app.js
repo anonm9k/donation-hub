@@ -145,9 +145,6 @@ app.get("/admin", function(req, res) {
     }
 })
 
-app.get("/updateinfo", function(req, res) {
-    res.render("updateinfo")
-})
 // post requests
 
 app.post("/register", function(req, res) {
@@ -206,14 +203,19 @@ app.post("/login", function (req, res) {
     })
 })
 
-app.post("/updateinfo", function(req, res) {
-    req.user.changePassword(req.body.oldpassword, req.body.newpassword, function(err) {
-        if(err) {
-            console.log(err)
-        } else {
-            res.status(500).json({message: 'Done!'});
-        }
-    })
+app.post("/resetPassword", function(req, res) {
+    if (req.body.newpassword != "") {
+        req.user.changePassword(req.body.oldpassword, req.body.newpassword, function(err) {
+            if(err) {
+                console.log(err)
+            } else {
+                res.redirect("/donate")
+            }
+        })
+    } else {
+        res.redirect("/donate")
+    }
+
 })
 // opening port to listen
 let port = process.env.PORT;
