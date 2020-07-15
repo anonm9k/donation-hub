@@ -25,14 +25,9 @@ body {
   transition:0.3s;
 }
 
-.request-form {
-  position: absolute;
-  width:100%;
-}
+/* update form modal   */
 
-/* request form modal   */
-
-.form-modal {
+.update-form-modal {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.7);
@@ -46,11 +41,33 @@ body {
 
 .form-modal-content {
   width: 60%;
-  height: 80%;
+  height: 55%;
   background-color: white;
   opacity: 1;
   border-radius: 2%;
-  text-align: center;
+  padding:2%
+}
+
+/* admin update form modal */
+
+.admin-update-form-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.admin-form-modal-content {
+  width: 60%;
+  height: 55%;
+  background-color: white;
+  opacity: 1;
+  border-radius: 2%;
   padding:2%
 }
 
@@ -70,10 +87,66 @@ body {
 
 .reset-modal-content {
   width: 40%;
-  height: 35%;
+  height: 30%;
   background-color: white;
   opacity: 1;
   border-radius: 2%;
   text-align: center;
   padding:2%
+}
+
+
+/* request form modal */
+
+.request-form-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.request-modal-content {
+  width: 40%;
+  height: 40%;
+  background-color: white;
+  opacity: 1;
+  border-radius: 2%;
+  text-align: left;
+  padding:3%
+}
+
+/* hospital name form modal */
+
+.hospital-name-form-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.hospital-form-modal-content {
+  width: 35%;
+  height: 20%;
+  background-color: white;
+  opacity: 1;
+  border-radius: 2%;
+  text-align: left;
+  padding-top: 3%;
+  display: flex;
+  justify-content: center;
+}
+/* customize users list */
+#users-list {
+  height: 200px;
+  overflow: auto;
 }

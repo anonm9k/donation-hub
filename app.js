@@ -115,10 +115,7 @@ app.get("/donated", function(req, res) {
 
 app.get("/admin", function(req, res) {
     if (req.isAuthenticated()) {
-
-        if( req.user.hospitalName == "") {
-            
-        }
+        admin = req.user
         User.count({}, function(err, count) {
             if (err) { console.log(err)}
         })
@@ -135,7 +132,7 @@ app.get("/admin", function(req, res) {
                         totalRequests = totalRequests + user.recieveDates.length
                         totalDonations = totalDonations + user.donationDates.length
                     })
-                    res.render("admin", {Users: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
+                    res.render("admin", {admin: admin, Users: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
                 }
             }
         })
@@ -215,8 +212,44 @@ app.post("/resetPassword", function(req, res) {
     } else {
         res.redirect("/donate")
     }
-
 })
+
+app.post("/updateinfo", function(req, res) {
+     if (req.body.username != "") {
+        req.user.username = req.body.username;
+     } else if (req.body.email != "") {
+         req.user.email = req.body.email;
+     } else if (req.body.phone != "") {
+        req.user.phone = req.body.phone;
+    } else if (req.body.address != "") {
+        req.user.address = req.body.address;
+    } else if (req.body.bgroup != "") {
+        req.user.bgroup = req.body.bgroup
+    } else if (req.body.city != "") {
+        req.user.city = req.body.city;
+    } else if (req.body.hospital != "") {
+        req.user.hospitalName = req.body.hospital;
+    }
+    req.user.save(function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+        req.logout()
+        res.redirect("/login")
+        }
+    })
+})
+
+app.post("/addHospital", function(req, res) {
+    req.user.hospitalName = req.body.hospital
+    req.user.save(function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+        res.redirect("/admin") }
+    })
+})
+
 // opening port to listen
 let port = process.env.PORT;
 if (port == null || port == "") {

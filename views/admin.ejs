@@ -3,73 +3,133 @@
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
     <div>
-        <a href="/updateinfo" class="btn btn-outline-info btn-sm" role="button"><b>Update info</b></a>
+        <a href="#" class="btn btn-outline-info btn-sm" role="button" id="open-admin-update-modal"><b>Update info</b></a>
         <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
     </div>
-  </nav>
-  <hr style="border-top: 1px solid #d3d3d3;">
+</nav>
+<hr style="border-top: 1px solid #d3d3d3;">
 <div class="container">
-<div style="position: relative;">
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm" style="margin-top: 5%;">
-        <p class="h1" style="padding-bottom: 3%; font-family: Roboto Condensed;"><b>Dashboard</b></p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser-1 %></span></p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <span style="color:#c72c41"><%= totalRequests %></span> </p>
-        <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <span style="color:#ee4540"><%= totalDonations %></span></p>
+    <div style="position: relative;">
+        <div class="container-fluid">
+            <% if (admin.hospitalName == "") { %>
+            <div class="alert alert-danger" role="alert">
+                Hospital name is no set. <a href="#" class="alert-link" id="open-hospital-name-modal">Click here</a> to enter hodpital name.
+            </div>
+            <% } %>
+            <div class="row">
+                <div class="col-sm" style="margin-top: 5%;">
+                    <p class="h1" style="padding-bottom: 3%; font-family: Roboto Condensed;"><b>Dashboard</b></p>
+                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser-1 %></span></p>
+                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <span style="color:#c72c41"><%= totalRequests %></span> </p>
+                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <span style="color:#ee4540"><%= totalDonations %></span></p>
+                </div>
+                <div class="col-sm">
+                    <canvas id="chart" height="200" width="300"></canvas>
+                        <script>
+                            //document.getElementById("eachMonthDonates").innerText;
+                            var data = [0,0,0,1,4,1,2,4,1,2,7,8]
+                            const ctx = document.getElementById('chart').getContext('2d');
+                            const myLineChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','Aug','Sep','Oct','Nov','Dec'],
+                                                datasets: [{
+                                                    label: 'Total requests per month',
+                                                    borderColor: 'rgb(211,33,45)',
+                                                    data: data
+                                                },
+                                                {
+                                                    label: 'Total donations per month',
+                                                    borderColor: 'rgb(132,222,2)',
+                                                    data: [0,0,0,0,13,0,12,0,0,20,0,0]
+                                                }]
+                                            },
+                                    options: {}
+                                });
+                        </script>
+                </div>
+            </div>
+            <div id="users-list">
+                <table class="table table-sm table-striped mb-0" style="margin-top: 5%;">
+                    <thead class="thead-dark">
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Date Joined</th>
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Email</th>
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address, City</th>
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
+                    <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Total requests/donations</th>
+                    </thead>
+                    <tbody>
+                        <% Users.forEach(function(user) { %>
+                            <tr>
+                            <td><%= user.dateJoined %></td>
+                            <th scope="row" style="color:#000000; font-family: Roboto Condensed;"><%= user.username %></th>
+                            <td><%= user.email %></td>
+                            <td><%= user.address %>, <%= user.city %></td>
+                            <td><%= user.bgroup %></td>
+                            <td><p>Undefined</p></td>
+                            </tr>
+                        <% }) %> 
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-sm">
-            <canvas id="chart" height="200" width="300"></canvas>
-                <script>
-                    //document.getElementById("eachMonthDonates").innerText;
-                    var data = [0,0,0,1,4,1,2,4,1,2,7,8]
-                    const ctx = document.getElementById('chart').getContext('2d');
-                    const myLineChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','Aug','Sep','Oct','Nov','Dec'],
-                                        datasets: [{
-                                            label: 'Total requests per month',
-                                            borderColor: 'rgb(211,33,45)',
-                                            data: data
-                                        },
-                                        {
-                                            label: 'Total donations per month',
-                                            borderColor: 'rgb(132,222,2)',
-                                            data: [0,0,0,0,13,0,12,0,0,20,0,0]
-                                        }]
-                                    },
-                            options: {}
-                        });
-                </script>
-        </div>
+            <div style="background-color: #cccccc; width: 100%; height: 100px;">
+                <p class="lead" style="text-align: center; padding-top: 5%;">More features to come</p>
+            </div>
     </div>
-    <table class="table" style="margin-top: 5%;">
-        <thead class="thead-dark">
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Date Joined</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Email</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address, City</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Total requests/donations</th>
-        </thead>
-        <tbody>
-            <% Users.forEach(function(user) { %>
-                <tr>
-                <td><%= user.dateJoined %></td>
-                <th scope="row" style="color:#000000; font-family: Roboto Condensed;"><%= user.username %></th>
-                <td><%= user.email %></td>
-                <td><%= user.address %>, <%= user.city %></td>
-                <td><%= user.bgroup %></td>
-                <td><p>Undefined</p></td>
-                </tr>
-            <% }) %> 
-        </tbody>
-    </table>
-
-    <div style="background-color: #cccccc; width: 100%; height: 100px;">
-        <p class="lead" style="text-align: center; padding-top: 5%;">More features to come</p>
-    </div>
-  </div>
 </div>
+
+<!-- Admin update info form modal -->
+
+<div class="admin-update-form-modal">
+    <div class="admin-form-modal-content">
+        <form action="/updateinfo" method="post">
+            <%- include('partials/admin-form') %>
+            <div style="text-align: center;">
+              <a href="#" role="button" class="btn btn-light" id="close-admin-update-modal">Cancel</a>
+              <button type="submit" class="btn btn-danger">Update</button>
+            </div>  
+          </form>
+        <script type="text/javascript">
+            document.getElementById("open-admin-update-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".admin-update-form-modal").style.display = 'flex';
+                });
+            document.getElementById("close-admin-update-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".admin-update-form-modal").style.display = 'none';
+                });
+        </script>
+    </div>
+</div>
+
+
+<!-- Add hospital name modal -->
+<div class="hospital-name-form-modal">
+    <div class="hospital-form-modal-content">
+        <form action="/addHospital" method="post">
+                <div class="form-row">
+                    <div  >
+                        <input type="text" class="form-control" name="hospital" placeholder="Hospital name">
+                    </div>
+                    <div >
+                        <button type="submit" class="btn btn-danger" style="margin-bottom: 10px;">Enter</button>
+                        <a href="#" class="btn btn-light" id="close-hospital-name-modal" style="margin-bottom: 10px;">Close</a>
+                    </div>
+                </div>
+          </form>
+        <script type="text/javascript">
+            document.getElementById("open-hospital-name-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".hospital-name-form-modal").style.display = 'flex';
+                });
+            document.getElementById("close-hospital-name-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".hospital-name-form-modal").style.display = 'none';
+                });
+        </script>
+    </div>
+</div>
+
 <%- include('partials/footer') %>

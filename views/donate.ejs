@@ -1,19 +1,5 @@
 <%- include('partials/header') %>
-<!-- request slide form -->
-<div class="request-form">
-    <div class="jumbotron centered" style="background-color: #db5461;">
-        <div class="container">
-            <a href="#" class="btn btn-primary btns close" role="button">Close</a>
-            <form action="/requested">
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Your Location">
-                    <input class="form-control" type="text" placeholder="Blood group">
-                    <button class="btn btn-outline-danger" type="submit">Confirm</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <div class="content">
     <!-- Navbar -->
 <nav class="navbar navbar-dark">
@@ -73,63 +59,84 @@
     </div>
     <div class="jumbotron">
         <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
-        <a href="#" class="btn btn-outline-danger col-sm-2 btns request" role="button">Request</a>
+        <a href="#" class="btn btn-outline-danger col-sm-2 btns request" role="button" id="open-request-modal">Request</a>
     </div>
 </div>
 </div>
 
-<!-- request form slide -->
-<script type="text/javascript">
-    (function () {
-        var windowH = $(window).height(),
-        docElement = $(document),
-        requestFormPage = $('.request-form'),
-        mainPage = $('.content'),
-        btns = $('.btns'),
-        animSpeed = 500;
+<!-- request form modal -->
 
-        requestFormPage.css({
-            height: windowH + 'px',
-            top :-windowH + 'px'
-        })
-
-        btns.on('click', function(e) {
-            if ( $(this).hasClass('request') ) {
-                requestFormPage.animate({'top': 0}, animSpeed)
-                mainPage.animate({'margin-top': windowH + 'px'}, animSpeed)
-            } else if ( $(this).hasClass('close') ) {
-                requestFormPage.animate({'top': -windowH + 'px'}, animSpeed)
-                mainPage.animate({'margin-top': 0}, animSpeed)
-            }
-            e.preventDefault();
-        })
-
-        docElement.on('scroll', function() {
-            if ($(this).scrollTop() > requestFormPage.height() && requestFormPage.css('top') === '0px') {
-                requestFormPage.css('top', -windowH + 'px');
-                mainPage.css('margin-top', 0);
-                docElement.scrollTop(0);
-            }
-        })
-    })();
-</script>
+<div class="request-form-modal">
+    <div class="request-modal-content">
+        <form action="/requested" method="post">
+            <div class="form-group row">
+                <label for="bgroup" class="col-sm-3 col-form-label" style="padding: 0;">Blood Group:</label>
+                <div class="col-md-3">
+                  <select name="bgroup" class="selectpicker" style="margin-top: 2%;" data-style="btn-outline-danger" title="Choose blood group">
+                    <option value="O Negative">O Negative</option>
+                    <option value="O Positive">O Positive</option>
+                    <option value="A Negative">A Negative</option>
+                    <option value="A Positive">A Positive</option>
+                    <option value="B Negative">B Negative</option>
+                    <option value="B Positive">B Positive</option>
+                    <option value="AB Negative">AB Negative</option>
+                    <option value="AB Positive">AB Positive</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="city" class="col-sm-3 col-form-label">City:</label>
+                <div class="col-sm-3">
+                    <select name="city" class="selectpicker" data-style="btn-outline-danger" title="Choose city">
+                        <option value="Jeddah">Jeddah</option>
+                        <option value="Makkah">Makkah</option>
+                    </select>                  
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="hospital" class="col-sm-3 col-form-label">Hospital:</label>
+                <div class="col-sm-3">
+                    <select name="hospital" class="selectpicker" data-style="btn-outline-danger" title="Choose Hospital">
+                        <option value="None">Undefined</option>
+                    </select>                  
+                </div>
+            </div>
+            <div style="text-align: center;">
+              <a href="#" role="button" class="btn btn-light" id="close-request-modal">Cancel</a>
+              <button type="submit" class="btn btn-danger">Request</button>
+            </div>  
+          </form>
+        <script type="text/javascript">
+            document.getElementById("open-request-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".request-form-modal").style.display = 'flex';
+                });
+            document.getElementById("close-request-modal").addEventListener('click', 
+                function() {
+                    document.querySelector(".request-form-modal").style.display = 'none';
+                });
+        </script>
+    </div>
+</div>
 
 <!-- update modal form -->
-<div class="form-modal">
+<div class="update-form-modal">
     <div class="form-modal-content">
         <form action="/updateinfo" method="post">
             <%- include('partials/form') %>
+            <div style="text-align: center;">
               <a href="#" role="button" class="btn btn-light" id="close-update-modal">Cancel</a>
               <button type="submit" class="btn btn-danger">Update</button>
+            </div>  
           </form>
         <script type="text/javascript">
             document.getElementById("open-update-modal").addEventListener('click', 
                 function() {
-                    document.querySelector(".form-modal").style.display = 'flex';
+                    document.querySelector(".update-form-modal").style.display = 'flex';
                 });
             document.getElementById("close-update-modal").addEventListener('click', 
                 function() {
-                    document.querySelector(".form-modal").style.display = 'none';
+                    document.querySelector(".update-form-modal").style.display = 'none';
                 });
         </script>
     </div>
@@ -140,14 +147,14 @@
     <div class="reset-modal-content">
         <form action="/resetPassword" method="post">
             <div class="form-group row">
-                <label for="oldpassword" class="col-sm-2 col-form-label">Old Password</label>
-                <div class="col-sm-10">
+                <label for="oldpassword" class="col-sm-4 col-form-label">Old Password</label>
+                <div class="col-sm-8">
                   <input type="password" class="form-control" placeholder="Enter old password" name="oldpassword">
                 </div>
               </div>
             <div class="form-group row">
-              <label for="newpassword" class="col-sm-2 col-form-label">New Password</label>
-              <div class="col-sm-10">
+              <label for="newpassword" class="col-sm-4 col-form-label">New Password</label>
+              <div class="col-sm-8">
                 <input type="password" class="form-control" placeholder="Enter new password" name="newpassword">
               </div>
             </div>
