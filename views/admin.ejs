@@ -2,10 +2,12 @@
 <nav class="navbar navbar-dark">
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <div class="dropdown" style="text-align: center;">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" class="noti-icon"><i class="fa fa-envelope fa-1g notification-icon" aria-hidden="true"></i></a>
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: auto;
+        left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);">
         <% if (admin.requests.length > 0) { %>
             <script>
                 document.querySelector(".notification-icon").style.color = 'red';
@@ -13,25 +15,25 @@
             <% for (i = 0; i < admin.requests.length; i++) { %>
                 <% id = admin.requests[i][0] %>
                 <% hospital = admin.hospitalName %>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" style="background-color: white;">
                     <div class="container">
-                        <div class="row">
+                        <div class="row" style="padding: 0;">
                             <div class="col-sm-8">
-                                <p style="font-size: 12px; font-family: roboto condensed;"><b><%= admin.requests[i][3] %></b> sent request on <%= admin.requests[i][1]  %>.
+                                <p style="font-size: 13px; font-family: roboto condensed; margin-right: 100px; padding-top: 10px;"><b><%= admin.requests[i][3] %></b> sent request on <%= admin.requests[i][1]  %>.
                                 </p> 
                             </div>
                             <div class="col-sm-2">
                                 <form action="/reqAllow" method="POST">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
                                     <input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;">
-                                    <button type="submit" class="btn btn-outline-success btn-sm">Allow</button>
+                                    <button type="submit" class="btn btn-success btn-sm" ><b>Allow</b></button>
                                 </form>
                             </div>
                             <div class="col-sm-2">
                                 <form action="/reqDeny" method="POST">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
                                     <input type="text" value=" <%= hospital %> " name="hospital" style="display: none;">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">Deny</button>
+                                    <button type="submit" class="btn btn-danger btn-sm"><b>Deny</b></button>
                                 </form>
                             </div>
                         </div>
@@ -39,6 +41,22 @@
                 </a>
               <% } %>
             <% } %>
+            <% if (admin.requests.length == 0) { %>
+                <script>
+                    document.querySelector(".notification-icon").style.color = 'grey';
+                </script>
+                    <a class="dropdown-item" href="#" style="background-color: white;">
+                        <div class="container">
+                            <div class="row" style="padding: 0;">
+                                <div class="col-sm-12">
+                                    <p style="font-size: 13px; font-family: roboto condensed; margin-right: 100px; padding-top: 10px;">
+                                        No requests
+                                    </p> 
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
         </div>
     </div>
     <div>

@@ -145,8 +145,12 @@ body {
   display: flex;
   justify-content: center;
 }
+
 /* customize users list */
 #users-list {
   height: 200px;
   overflow: auto;
 }
+
+/* dropdown */
+
