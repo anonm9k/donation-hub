@@ -11,29 +11,36 @@
                 document.querySelector(".notification-icon").style.color = 'red';
             </script>
             <% for (i = 0; i < admin.requests.length; i++) { %>
-                <a class="dropdown-item" href="#" >
+                <% id = admin.requests[i][0] %>
+                <% hospital = admin.hospitalName %>
+                <a class="dropdown-item" href="#">
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                                 <p style="font-size: 12px; font-family: roboto condensed;"><b><%= admin.requests[i][3] %></b> sent request on <%= admin.requests[i][1]  %>.
                                 </p> 
                             </div>
                             <div class="col-sm-2">
-                                <button onclick="reqDeny(<%= admin.requests[i][1] %>)" class="btn btn-outline-danger btn-sm req-accept" id="<%= admin.requests[i][1] %>">Accept</button>
-                                <button onclick="" class="btn btn-outline-danger btn-sm req-deny" id="<%= admin.requests[i][1] %>">Deny</button>
+                                <form action="/reqAllow" method="POST">
+                                    <input type="text" value=" <%= id %> " name="id" style="display: none;">
+                                    <input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;">
+                                    <button type="submit" class="btn btn-outline-success btn-sm">Allow</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-2">
+                                <form action="/reqDeny" method="POST">
+                                    <input type="text" value=" <%= id %> " name="id" style="display: none;">
+                                    <input type="text" value=" <%= hospital %> " name="hospital" style="display: none;">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Deny</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </a>
               <% } %>
             <% } %>
-            <script>
-                function reqDeny(id) {
-                    console.log(id)
-                }
-            </script>
         </div>
-      </div>
+    </div>
     <div>
         <a href="#" class="btn btn-outline-info btn-sm" role="button" id="open-admin-update-modal"><b>Update info</b></a>
         <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>

@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema ({
     recieveDates: Array,
     isAdmin: Boolean,
     hospitalName: String,
-    requests: {type: Array, default: "Empty"}
+    requests: Array
   });
 
 // use passport as plugin for schema
@@ -57,6 +57,12 @@ const User = new mongoose.model("User", userSchema);
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// test file
+
+app.get("/test", function(req, res) {
+    res.render("partials/testfile")
+}) 
 
 // get requests
 app.get("/", function(req, res) {
@@ -114,7 +120,8 @@ app.get("/admin", function(req, res) {
                         totalRequests = totalRequests + user.recieveDates.length
                         totalDonations = totalDonations + user.donationDates.length
                     })
-                    res.render("admin", {admin: admin, Users: foundUser, totalUser: totalUser, totalRequests: totalRequests, totalDonations: totalDonations})
+                    res.render("admin", {admin: admin, Users: foundUser, totalUser: totalUser,
+                        totalRequests: totalRequests, totalDonations: totalDonations})
                 }
             }
         })
@@ -150,6 +157,7 @@ app.get("/donated", function(req, res) {
 })
 
 app.get("/req-deny", function(req, res) {
+    console.log()
     res.redirect("/admin")
 })
 
@@ -269,12 +277,11 @@ app.post("/requested", function(req, res) {
         if (err) { console.log(err) }
         else {
             foundUser.forEach(function(user) {
-                ID = user.requests.length + 1
+                ID = req.user._id + user.requests.length + 1
                 request = [ID, datentime, req.body.bgroup, req.user.username, req.user.email, req.user.phone]
                 user.requests.push(request)
                 user.save(function(err){
-                    if(err) {console.log(err)}
-                    console.log("done")
+                    if(err) {console.log(err)};
                     res.redirect("/donate")
                 })
             })
@@ -282,7 +289,32 @@ app.post("/requested", function(req, res) {
     })
 })
 
-
+app.post("/reqAllow", function (req, res) {
+    console.log("user will be allowed "+req.body.id)
+    res.redirect("/admin")
+})
+app.post("/reqDeny", function (req, res) {
+    id = req.body.id.trim()
+    h =  req.body.hospital.trim()  
+    User.findOne({"hospitalName": h}, function (err, foundAdmin) {
+        if (err) { console.log(err) }
+        else {
+                if(foundAdmin) {
+                    requests = foundAdmin.requests
+                    for (i=0; i < requests.length; i++) {
+                        if(requests[i][0] == id) {
+                            requests.splice(i, 1)
+                            foundAdmin.save(function(err) {
+                                if(err) {console.log(err)}
+                                res.redirect("/admin")
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    )
+})
 
 
 
