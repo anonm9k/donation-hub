@@ -149,7 +149,9 @@ app.get("/donated", function(req, res) {
     })
 })
 
-
+app.get("/req-deny", function(req, res) {
+    res.redirect("/admin")
+})
 
 // post requests
 
@@ -260,7 +262,6 @@ app.post("/addHospital", function(req, res) {
 })
 
 app.post("/requested", function(req, res) {
-    
     const today = new Date()
     const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -280,6 +281,21 @@ app.post("/requested", function(req, res) {
         }
     })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // opening port to listen
 let port = process.env.PORT;
 if (port == null || port == "") {

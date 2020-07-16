@@ -3,20 +3,35 @@
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <div class="dropdown" style="text-align: center;">
         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <a href="#"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
+            <a href="#" class="noti-icon"><i class="fa fa-envelope fa-1g notification-icon" aria-hidden="true"></i></a>
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: auto; left: 50%; -webkit-transform: translate(-50%, 0);
-        -o-transform: translate(-50%, 0);
-        transform: translate(-50%, 0); ">
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
         <% if (admin.requests.length > 0) { %>
+            <script>
+                document.querySelector(".notification-icon").style.color = 'red';
+            </script>
             <% for (i = 0; i < admin.requests.length; i++) { %>
-                <a class="dropdown-item" href="#">
-                    <p>User "<%= admin.requests[i][3] %>" sent request at <%= admin.requests[i][1]  %>.
-                        Blood Group: <%= admin.requests[i][2]  %>, Email: <%= admin.requests[i][4]  %>,
-                         Phone: <%= admin.requests[i][5]  %>, </p>
+                <a class="dropdown-item" href="#" >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <p style="font-size: 12px; font-family: roboto condensed;"><b><%= admin.requests[i][3] %></b> sent request on <%= admin.requests[i][1]  %>.
+                                </p> 
+                            </div>
+                            <div class="col-sm-2">
+                                <button onclick="reqDeny(<%= admin.requests[i][1] %>)" class="btn btn-outline-danger btn-sm req-accept" id="<%= admin.requests[i][1] %>">Accept</button>
+                                <button onclick="" class="btn btn-outline-danger btn-sm req-deny" id="<%= admin.requests[i][1] %>">Deny</button>
+                            </div>
+                        </div>
+                    </div>
                 </a>
               <% } %>
             <% } %>
+            <script>
+                function reqDeny(id) {
+                    console.log(id)
+                }
+            </script>
         </div>
       </div>
     <div>
