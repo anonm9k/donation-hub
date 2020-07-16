@@ -43,7 +43,8 @@ const userSchema = new mongoose.Schema ({
     donationDates: Array,
     recieveDates: Array,
     isAdmin: Boolean,
-    hospitalName: String
+    hospitalName: String,
+    requests: {type: Array, default: "Empty"}
   });
 
 // use passport as plugin for schema
@@ -82,35 +83,16 @@ app.get("/donate", function(req, res) {
     });
     // req.user.id is the current user id
     if (req.isAuthenticated()) {
-        res.render("donate", {user:req.user, eachMonthDonates:eachMonthDonates, eachMonthRecieves:eachMonthRecieves});
+        User.find({"isAdmin": true}, function (err, foundUser) {
+            if (err) { console.log(err) }
+            else {
+                res.render("donate", {admins: foundUser, user:req.user, eachMonthDonates:eachMonthDonates, eachMonthRecieves:eachMonthRecieves});
+            }
+        })
+        
     } else {
         res.redirect("/login");
     }
-})
-
-app.get("/logout", function(req, res) {
-    req.logout()
-    res.redirect("/")
-})
-
-app.get("/requested", function(req, res) {
-    const today = new Date()
-    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    req.user.recieveDates.push(datentime);
-    req.user.save(function() {
-        res.redirect("/donate")
-    })
-})
-
-app.get("/donated", function(req, res) {
-    const today = new Date()
-    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    req.user.donationDates.push(datentime);
-    req.user.save(function() {
-        res.redirect("/donate")
-    })
 })
 
 app.get("/admin", function(req, res) {
@@ -141,6 +123,33 @@ app.get("/admin", function(req, res) {
         res.redirect("/login");
     }
 })
+
+app.get("/logout", function(req, res) {
+    req.logout()
+    res.redirect("/")
+})
+
+app.get("/requested", function(req, res) {
+    const today = new Date()
+    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    req.user.recieveDates.push(datentime);
+    req.user.save(function() {
+        res.redirect("/donate")
+    })
+})
+
+app.get("/donated", function(req, res) {
+    const today = new Date()
+    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    req.user.donationDates.push(datentime);
+    req.user.save(function() {
+        res.redirect("/donate")
+    })
+})
+
+
 
 // post requests
 
@@ -250,6 +259,27 @@ app.post("/addHospital", function(req, res) {
     })
 })
 
+app.post("/requested", function(req, res) {
+    
+    const today = new Date()
+    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    User.find({"hospitalName": req.body.hospital}, function (err, foundUser) {
+        if (err) { console.log(err) }
+        else {
+            foundUser.forEach(function(user) {
+                ID = user.requests.length + 1
+                request = [ID, datentime, req.body.bgroup, req.user.username, req.user.email, req.user.phone]
+                user.requests.push(request)
+                user.save(function(err){
+                    if(err) {console.log(err)}
+                    console.log("done")
+                    res.redirect("/donate")
+                })
+            })
+        }
+    })
+})
 // opening port to listen
 let port = process.env.PORT;
 if (port == null || port == "") {

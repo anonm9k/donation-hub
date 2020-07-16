@@ -97,7 +97,9 @@
                 <label for="hospital" class="col-sm-3 col-form-label">Hospital:</label>
                 <div class="col-sm-3">
                     <select name="hospital" class="selectpicker" data-style="btn-outline-danger" title="Choose Hospital">
-                        <option value="None">Undefined</option>
+                        <% admins.forEach(function(admin) { %>
+                            <option value="<%= admin.hospitalName %>"> <%= admin.hospitalName %> </option>
+                        <% }) %>
                     </select>                  
                 </div>
             </div>
