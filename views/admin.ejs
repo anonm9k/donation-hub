@@ -1,9 +1,11 @@
 <%- include('partials/header') %>
+<!-- Navbar -->
 <nav class="navbar navbar-dark">
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
     <div class="dropdown" style="text-align: center;">
         <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <a href="#" class="noti-icon"><i class="fa fa-envelope fa-1g notification-icon" aria-hidden="true"></i></a>
+            <a href="#" class="noti-icon"><i class="fa fa-envelope notification-icon" aria-hidden="true"></i></a>
+            <span class="badge badge-pill badge-primary" style=" display: none; top: -10px"><%= admin.requests.length %></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: auto;
         left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);
@@ -11,6 +13,7 @@
         <% if (admin.requests.length > 0) { %>
             <script>
                 document.querySelector(".notification-icon").style.color = 'red';
+                document.querySelector(".badge").style.display = 'inline-block';
             </script>
             <% for (i = 0; i < admin.requests.length; i++) { %>
                 <% id = admin.requests[i][0] %>
@@ -23,10 +26,10 @@
                                 </p> 
                             </div>
                             <div class="col-sm-2">
-                                <form action="/reqAllow" method="POST">
+                                <form action="/allow" method="get">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
                                     <input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;">
-                                    <button type="submit" class="btn btn-success btn-sm" ><b>Allow</b></button>
+                                    <button type="submit" class="btn btn-success btn-sm"><b>Allow</b></button>
                                 </form>
                             </div>
                             <div class="col-sm-2">
@@ -64,7 +67,10 @@
         <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
     </div>
 </nav>
+
 <hr style="border-top: 1px solid #d3d3d3;">
+
+<!-- Main-->
 <div class="container">
     <div style="position: relative;">
         <div class="container-fluid">
@@ -114,6 +120,8 @@
                         </script>
                 </div>
             </div>
+
+            <!-- User tables -->
             <div id="users-list">
                 <table class="table table-sm">
                     <thead class="thead-dark">
@@ -155,7 +163,7 @@
               <a href="#" role="button" class="btn btn-light" id="close-admin-update-modal">Cancel</a>
               <button type="submit" class="btn btn-danger">Update</button>
             </div>  
-          </form>
+        </form>
         <script type="text/javascript">
             document.getElementById("open-admin-update-modal").addEventListener('click', 
                 function() {

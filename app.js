@@ -156,9 +156,8 @@ app.get("/donated", function(req, res) {
     })
 })
 
-app.get("/req-deny", function(req, res) {
-    console.log()
-    res.redirect("/admin")
+app.get("/allow", function(req, res) {
+    res.render("allowedReq")
 })
 
 // post requests
