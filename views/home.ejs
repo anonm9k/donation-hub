@@ -4,6 +4,9 @@
 <head>
   <meta charset="utf-8">
   <title>DonHUB</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/styles.css">
@@ -17,22 +20,44 @@
 </head>
 
 <body>
-
-<div class="jumbotron centered">
-    <div class="container">
-      <i class="fa fa-medkit fa-6x" aria-hidden="true" style="color:#eb3f39"></i>
-      <h1 class="display-4">Donation<b>Hub</b></h1>
-      <p class="lead">Donate blood, save life!</p>
-      <hr>
-      <a class="btn btn-light btn-lg" id="register-button" href="/register" role="button" style="">Register</a>
-      <a class="btn btn-outline-danger btn-lg" id="login-button" href="/login" role="button">Login</a>
-  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: -2%;">
+    <a class="navbar-brand" href="/admin" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link disabled" href="#">About us</a>
+        <a class="nav-item nav-link disabled" href="#">Feedback</a>
+      </div>
     </div>
+  </nav>
+<hr>
+
+<div class="jumbotron centered" style="background-image: url('https://www.wallpaperup.com/uploads/wallpapers/2016/09/30/1021590/4b4369d8307da4e2fdf3e1fe59a90d87-700.jpg'); 
+                              background-repeat: no-repeat;">
+    
+      <div style="margin-top: 2%;">
+      <h1 class="display-4" style="color: black">Donation<b>Hub</b></h1>
+      <p class="lead" style="color: black">Donate blood, save life!</p>
+      <hr>
+      <div style="margin-top: 6%;">
+        <a class="btn btn-danger btn-lg" id="register-button" href="/register" role="button" style="">Register</a>
+        <a class="btn btn-outline-light btn-lg" id="login-button" href="/login" role="button" style="color: black">Login</a>
+      </div>  
+      </div>
+    
+</div>
+<div style="text-align: center;">
+  <h1 class="display-4" style="color: #270f67;">Welcome to our website</h1>
+  <div style="text-align: center;">
+    <p class="lead" style="width: 400px; display: inline-block">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,</p>
   </div>
-
-
-<footer class="page-footer font-small blue footer">
+</div>
+<footer class="page-footer font-small" style="color:white; background-color: #270f67">
   <div class="footer-copyright text-center py-3">
-    made with <i class="fa fa-heart fa-1g" style="color: red" aria-hidden="true"></i> by Mazhar Ali
+    created with <i class="fa fa-heart" aria-hidden="true"></i>
+    by donatioHUB team
   </div>
 </footer>
