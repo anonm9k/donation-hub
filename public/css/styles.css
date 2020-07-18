@@ -146,10 +146,26 @@ body {
   justify-content: center;
 }
 
-/* customize users list */
-#users-list {
-  height: 200px;
-  overflow: auto;
+/* Blood group chart modal */
+
+.blood-group-chart-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
 }
 
-/* dropdown */
+.blood-group-modal-content {
+  background-color: white;
+  opacity: 1;
+  border-radius: 2%;
+  text-align: left;
+  padding-top: 3%;
+  display: flex;
+  justify-content: center;
+}

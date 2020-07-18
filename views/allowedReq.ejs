@@ -11,6 +11,8 @@
 <hr>
     <div class="container">
         <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> undefind</span></b><p>
+          <button class="btn btn-info open-chart-modal">Check blood group compatibility chart</button>
+         
   <div id="users-list">
     <table class="table table-sm">
         <thead class="thead-dark">
@@ -23,13 +25,143 @@
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Send message via</th>
         </thead>
         <tbody>
-            
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
         </tbody>
     </table>
 </div>
 </div>
+</div>
+<!-- Blood group chart modal -->
 
-
+<div class="blood-group-chart-modal">
+  <div class="blood-group-modal-content" style="position:relative;">
+    <table class="table table-light table-bordered" style="width: 40%">
+       <thead class="thead-dark">
+      <tr>
+          <th colspan="9" style="text-align: center;">Donors</th>
+        </tr>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">O-</th>
+          <th scope="col">O+</th>
+          <th scope="col">B-</th>
+          <th scope="col">B+</th>
+          <th scope="col">A-</th>
+          <th scope="col">A+</th>
+          <th scope="col">AB-</th>
+          <th scope="col">AB+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">AB+</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">AB-</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">A+</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">A-</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">B+</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">B-</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">O+</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <th scope="row">O-</th>
+          <td><i class="fa fa-check" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="close close-chart-modal" aria-label="Close" style="position:absolute; top:1%; left: 95%;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+      <script type="text/javascript">
+          document.querySelector(".open-chart-modal").addEventListener('click', 
+              function() {
+                  document.querySelector(".blood-group-chart-modal").style.display = 'flex';
+              });
+          document.querySelector(".close-chart-modal").addEventListener('click', 
+              function() {
+                  document.querySelector(".blood-group-chart-modal").style.display = 'none';
+              });
+      </script>
+  </div>
 </div>
 
 <%- include('partials/footer') %>
