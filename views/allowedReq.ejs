@@ -1,4 +1,10 @@
 <%- include('partials/header') %>
+<!-- for bootstrap table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
 
 <div class="content">
     <!-- Navbar -->
@@ -10,29 +16,37 @@
   </nav>
 <hr>
     <div class="container">
-        <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> undefind</span></b><p>
+        <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> <%= bgroup %></span></b><p>
           <button class="btn btn-info open-chart-modal">Check blood group compatibility chart</button>
          
   <div id="users-list">
-    <table class="table table-sm">
+    <table id="userlist" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
         <thead class="thead-dark">
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Date Joined</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Email</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address, City</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Total requests/donations</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Send message via</th>
         </thead>
         <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            <% users.forEach(function(user) { %>
+              <tr>
+                <td><%= user.username %></td>
+                <td><%= user.email %></td>
+                <td><%= user.address %></td>
+                <td><%= user.bgroup %></td>
+                <td>None</td>
+                <td><a>SMS</a> / <a>Email</a></td>
+              </tr>
+            <% }) %>
         </tbody>
     </table>
+    <script>
+      $(document).ready(function() {
+          $('#userlist').DataTable();
+          } );
+    </script>
 </div>
 </div>
 </div>

@@ -156,10 +156,6 @@ app.get("/donated", function(req, res) {
     })
 })
 
-app.get("/allow", function(req, res) {
-    res.render("allowedReq")
-})
-
 // post requests
 
 app.post("/register", function(req, res) {
@@ -289,9 +285,73 @@ app.post("/requested", function(req, res) {
 })
 
 app.post("/reqAllow", function (req, res) {
-    console.log("user will be allowed "+req.body.id)
-    res.redirect("/admin")
+    bgroup = req.body.bgroup.trim()
+    if (bgroup == "O Positive") {
+        User.find({"bgroup": {$in: ["O Negative", "O Positive"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "O Negative") {
+        User.find({"bgroup": "O Negative"}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "A Positive") {
+        User.find({"bgroup": {$in: ["O Negative", "O Positive", "A Negative", "A Positive"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "A Negative") {
+        User.find({"bgroup": {$in: ["O Negative", "A Negative"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "B Positive") {
+        User.find({"bgroup": {$in: ["O Negative", "O Positive", "B Negative", "B Positive"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "B Negative") {
+        User.find({"bgroup": {$in: ["O Negative", "B Negative"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "AB Positive") {
+        User.find({"bgroup": {$in: ["O Negative", "O Positive", "AB Positive", "AB Negative", "A Positive", "A Negative", "B Positive", "B Negative" ]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
+    if (bgroup == "AB Negative") {
+        User.find({"bgroup": {$in: ["O Negative", "A Negative", "B Negative", "AB Negative"]}}, function(err, foundUser) {
+            if (err) {console.log(err)}
+            else {
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+            }
+        })
+    }
 })
+
 app.post("/reqDeny", function (req, res) {
     id = req.body.id.trim()
     h =  req.body.hospital.trim()  

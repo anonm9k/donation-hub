@@ -25,6 +25,7 @@
             <% for (i = 0; i < admin.requests.length; i++) { %>
                 <% id = admin.requests[i][0] %>
                 <% hospital = admin.hospitalName %>
+                <% bgroup = admin.requests[i][2] %>
                 <a class="dropdown-item" href="#" style="background-color: white;">
                     <div class="container" style="width:100%">
                         <div class="row" style="padding: 0;">
@@ -33,9 +34,10 @@
                                 </p> 
                             </div>
                             <div class="col-sm-2">
-                                <form action="/allow" method="get">
+                                <form action="/reqAllow" method="POST">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
-                                    <input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;">
+                                    <input type="text" value=" <%= bgroup %> " name="bgroup" style="display: none;">
+                                    <!--<input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;"> -->
                                     <button type="submit" class="btn btn-success btn-sm"><b>Allow</b></button>
                                 </form>
                             </div>
@@ -43,7 +45,7 @@
                                 <form action="/reqDeny" method="POST">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
                                     <input type="text" value=" <%= hospital %> " name="hospital" style="display: none;">
-                                    <button type="submit" class="btn btn-danger btn-sm"><b>Deny</b></button>
+                                    <button type="submit" class="btn btn-danger btn-sm deny"><b>Deny</b></button>
                                 </form>
                             </div>
                         </div>
