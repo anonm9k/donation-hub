@@ -6,8 +6,13 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const flash = require('flash')
+// const Nexmo = require('nexmo')
+const socketio = require('socket.io')
+
 
 const app = express();
+
 
 // using modules
 app.use(express.static("public"));
@@ -22,9 +27,11 @@ app.use(session({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+
 
 // declaring variables
-
+var userlist = []
 
 // connecting to database
 mongoose.connect("mongodb+srv://admin_anon:donationhub@cluster0.bdgfz.mongodb.net/userDB", {useNewUrlParser: true, useUnifiedTopology: true });
@@ -59,10 +66,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // test file
-
-app.get("/test", function(req, res) {
-    res.render("partials/testfile")
-}) 
+app.get('/test', function(req, res){
+    res.render('partials/testfile');
+});
 
 // get requests
 app.get("/", function(req, res) {
@@ -204,7 +210,7 @@ app.post("/login", function (req, res) {
         if(err) {
             console.log(err);
         } else {
-            passport.authenticate("local", {failureRedirect: '/login'}) (req,res, function() {
+            passport.authenticate("local", {failureRedirect: '/login', failureFlash: 'Wrong pasword'}) (req,res, function() {
                 if (req.user.isAdmin == true) {
                     res.redirect("/admin")
                 } else {
@@ -375,17 +381,33 @@ app.post("/reqDeny", function (req, res) {
     )
 })
 
+app.post("/donated", function(req, res) {
+    User.findOne({"_id": req.body.id}, function(err, foundUser) {
+        if(err) {console.log(err)}
+        else {
+            if(foundUser) {
+                const today = new Date()
+                const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+                today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                foundUser.donationDates.push(datentime);
+                foundUser.save(function() {
+                    res.redirect("/admin")
+                })
+            }
+        }
+    })
+})
 
-
-
-
-
-
-
-
-
-
-
+app.post("/queuedUsers", function(req, res) {
+        users = req.body.username
+    
+        User.find({"username": {$in: users}}, function(err, foundUser) {
+            if(err) {console.log(err)}
+            else {
+                res.render("queuedUsers", {users: foundUser})
+            }
+        })
+})
 
 // opening port to listen
 let port = process.env.PORT;

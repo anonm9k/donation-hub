@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+<style>
+  .chart-button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: black;
+}
+.chart-button:hover {
+  background-color:grey;
+  transition: 0.2s;
+}
+</style>
+<!-- for bootstrap table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+
+<div class="content">
+    <!-- Navbar -->
+<nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="/admin" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <div>
+        <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
+    </div>
+  </nav>
+<hr>
+<div class="container">
+    <div id="users-list">
+    
+    <table id="userlist" class="table table-sm table-striped table-bordered " cellspacing="0" width="100%">
+        <thead class="thead-dark">
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Phone</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed; text-align: center;">Select user</th>
+        </thead>
+        <tbody>
+          <% users.forEach(function(user) { %>
+              <tr>
+                <td><%=user.username%></td>
+                <td><%=user.address%></td>
+                <td><%=user.bgroup%></td>
+                <td><%=user.phone%></td>
+                <td style="text-align: center;">
+                  <form action="/donated" method="post">
+                    <button class="btn btn-success btn-sm" type="submit">
+                        <input value="<%= user.id %>" name="id" style="display: none;">
+                        <b>Donated</b><i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <script>
+      $(document).ready(function() {
+          $('#userlist').DataTable();
+          } );
+    </script>
+</div>
+</div>
+</div>

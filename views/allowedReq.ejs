@@ -1,4 +1,19 @@
 <%- include('partials/header') %>
+<style>
+  .chart-button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: black;
+}
+.chart-button:hover {
+  background-color:grey;
+  transition: 0.2s;
+}
+</style>
 <!-- for bootstrap table -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
@@ -16,32 +31,42 @@
   </nav>
 <hr>
     <div class="container">
-        <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> <%= bgroup %></span></b><p>
-          <button class="btn btn-info open-chart-modal">Check blood group compatibility chart</button>
+      <button class="btn btn-secondary open-chart-modal chart-button">Check blood group compatibility chart</button>
+      <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> <%= bgroup %></span></b><p>
+        
          
   <div id="users-list">
-    <table id="userlist" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
+    <form action="queuedUsers" method="post">
+    <table id="userlist" class="table table-sm table-striped table-bordered " cellspacing="0" width="100%">
         <thead class="thead-dark">
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Email</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Address</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Blood group</th>
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Total requests/donations</th>
-        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Send message via</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Phone</th>
+        <th scope="col" style="color:#ffffff; font-family: Roboto Condensed; text-align: center;">
+          <button class="btn btn-outline-warning btn-sm" >
+            <b>Send SMS</b><i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
+          
+        </th>
         </thead>
         <tbody>
             <% users.forEach(function(user) { %>
               <tr>
                 <td><%= user.username %></td>
-                <td><%= user.email %></td>
                 <td><%= user.address %></td>
                 <td><%= user.bgroup %></td>
                 <td>None</td>
-                <td><a>SMS</a> / <a>Email</a></td>
+                <td><%= user.phone %></td>
+                <td style="text-align: center;">
+                  <input type="checkbox" value="<%= user.username %>" name="username">
+                </td>
               </tr>
             <% }) %>
         </tbody>
     </table>
+    </form>
     <script>
       $(document).ready(function() {
           $('#userlist').DataTable();
@@ -54,114 +79,7 @@
 
 <div class="blood-group-chart-modal">
   <div class="blood-group-modal-content" style="position:relative;">
-    <table class="table table-light table-bordered" style="width: 40%">
-       <thead class="thead-dark">
-      <tr>
-          <th colspan="9" style="text-align: center;">Donors</th>
-        </tr>
-        <tr>
-          <th scope="col">Type</th>
-          <th scope="col">O-</th>
-          <th scope="col">O+</th>
-          <th scope="col">B-</th>
-          <th scope="col">B+</th>
-          <th scope="col">A-</th>
-          <th scope="col">A+</th>
-          <th scope="col">AB-</th>
-          <th scope="col">AB+</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">AB+</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">AB-</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">A+</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">A-</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">B+</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">B-</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">O+</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">O-</th>
-          <td><i class="fa fa-check" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-          <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        </tr>
-      </tbody>
-    </table>
+    <%- include('partials/bloodgroupchart') %>
     <button type="button" class="close close-chart-modal" aria-label="Close" style="position:absolute; top:1%; left: 95%;">
       <span aria-hidden="true">&times;</span>
     </button>
