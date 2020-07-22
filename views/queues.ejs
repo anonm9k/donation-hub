@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+<nav class="navbar navbar-dark">
+  <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+</nav>
+<hr>
+<div class="container">
+    <div>
+        <div class="row">
+        <% qno = 1 %>
+        <% queues.forEach(function(queue) { %>
+            
+            <form action="queuedUsers" method="POST" style="margin-right: 3%;">
+            <div class="card bg-light mb-3 col-sm-4 queue-card" style="max-width: 18rem; ">
+                <div class="card-header" style="text-align: center; font-family: roboto condensed;"><b>Queue number <%= qno %> </b></div>
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: roboto condensed;"><b>User: <%= queue[1] %></b></h5>
+                    <p class="card-text lead">Total number of users recieved SMS: <%= queue[2].length %></p>
+                    <div style="text-align: center;">
+                        <input value="<%= queue[2] %>" style="display: none" name="username">
+                        <button class="btn btn-outline-danger btn-sm" type="submit"> Open Queue </button>
+                        </form>
+                        <form action="/delqueue" method="post" style="display: inline-block;">
+                            <input value="<%= queue[0] %>" name="reqID" style="display: none;">
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Remove <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"><p style="color:grey">Created at 9th june 12:4am</p></small>
+                </div>
+            </div>
+            
+            <% qno = qno + 1 %>
+        <% }) %>
+        </div>
+        <script>
+            $('.queue-card').hover(
+                function(){ 
+                    $(this).addClass('bg-danger'), $(this).removeClass('bg-light'), $(this).addClass('text-white'),
+                    $(this).find(".btn").removeClass('btn-outline-danger'), $(this).find('.btn').addClass('btn-outline-light')
+                },
+                function(){ 
+                    $(this).removeClass('bg-danger'),  $(this).addClass('bg-light'), $(this).removeClass('text-white'),
+                    $(this).find(".btn").removeClass('btn-outline-light'), $(this).find('.btn').addClass('btn-outline-danger')
+                 }
+            )
+        </script>
+    </div>   
+</div>
+
+<%- include('partials/footer') %>

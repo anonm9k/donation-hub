@@ -51,7 +51,8 @@ const userSchema = new mongoose.Schema ({
     recieveDates: Array,
     isAdmin: Boolean,
     hospitalName: String,
-    requests: Array
+    requests: Array,
+    queue: Array
   });
 
 // use passport as plugin for schema
@@ -152,16 +153,10 @@ app.get("/requested", function(req, res) {
     })
 })
 
-app.get("/donated", function(req, res) {
-    const today = new Date()
-    const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    req.user.donationDates.push(datentime);
-    req.user.save(function() {
-        res.redirect("/donate")
-    })
+app.get("/queues", function(req, res) {
+    queues = req.user.queue
+    res.render("queues", {queues: queues})
 })
-
 // post requests
 
 app.post("/register", function(req, res) {
@@ -291,12 +286,14 @@ app.post("/requested", function(req, res) {
 })
 
 app.post("/reqAllow", function (req, res) {
+    id = req.body.id.trim()
     bgroup = req.body.bgroup.trim()
+    username = req.body.username.trim()
     if (bgroup == "O Positive") {
         User.find({"bgroup": {$in: ["O Negative", "O Positive"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -304,7 +301,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": "O Negative"}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -312,7 +309,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "O Positive", "A Negative", "A Positive"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -320,7 +317,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "A Negative"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -328,7 +325,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "O Positive", "B Negative", "B Positive"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -336,7 +333,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "B Negative"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -344,7 +341,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "O Positive", "AB Positive", "AB Negative", "A Positive", "A Negative", "B Positive", "B Negative" ]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -352,7 +349,7 @@ app.post("/reqAllow", function (req, res) {
         User.find({"bgroup": {$in: ["O Negative", "A Negative", "B Negative", "AB Negative"]}}, function(err, foundUser) {
             if (err) {console.log(err)}
             else {
-                res.render("allowedReq", {users: foundUser, bgroup: bgroup})
+                res.render("allowedReq", {users: foundUser, bgroup: bgroup, username:username, id:id})
             }
         })
     }
@@ -390,6 +387,8 @@ app.post("/donated", function(req, res) {
                 const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
                 today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                 foundUser.donationDates.push(datentime);
+                request = foundUser.requests.length + 1
+                foundUser.requests.push(request)
                 foundUser.save(function() {
                     res.redirect("/admin")
                 })
@@ -398,17 +397,60 @@ app.post("/donated", function(req, res) {
     })
 })
 
-app.post("/queuedUsers", function(req, res) {
+app.post("/queues", function(req, res) {
+        username = req.body.requestusername.trim()
+        reqID = req.body.reqID.trim()
         users = req.body.username
-    
-        User.find({"username": {$in: users}}, function(err, foundUser) {
+        queue = [reqID, username, users]
+        
+        User.findOne({"hospitalName": req.user.hospitalName}, function (err, foundAdmin) {
+            if (err) { console.log(err) }
+            else {
+                    if(foundAdmin) {
+                        requests = foundAdmin.requests
+                        for (i=0; i < requests.length; i++) {
+                            if(requests[i][0] == reqID) {
+                                requests.splice(i, 1)
+                                foundAdmin.save(function(err) {
+                                    if(err) {console.log(err)}
+                                    
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        req.user.queue.push(queue)
+        req.user.save(function() {
+            res.redirect("/queues")
+        })     
+})
+
+app.post("/delqueue", function(req, res) {
+    reqID = req.body.reqID
+    queue = req.user.queue
+    for (i=0; i < queue.length; i++) {
+        if(queue[i][0] == reqID) {
+            queue.splice(i, 1)
+            req.user.save(function(err) {
+                if(err) {console.log(err)}
+                res.redirect("/queues")
+            })
+        }
+    }
+})
+
+
+app.post("/queuedUsers", function(req, res) {
+    users = req.body.username.split(',')
+    User.find({"username": {$in: users}}, function(err, foundUser) {
             if(err) {console.log(err)}
             else {
                 res.render("queuedUsers", {users: foundUser})
             }
         })
 })
-
 // opening port to listen
 let port = process.env.PORT;
 if (port == null || port == "") {

@@ -32,11 +32,10 @@
 <hr>
     <div class="container">
       <button class="btn btn-secondary open-chart-modal chart-button">Check blood group compatibility chart</button>
+      <p class="lead">Request of <span style="color: red"><%= username %></span></p>
       <p class="lead"><b>Users who are compatible to donate to<span style="color: red"> <%= bgroup %></span></b><p>
-        
-         
   <div id="users-list">
-    <form action="queuedUsers" method="post">
+    <form action="queues" method="post">
     <table id="userlist" class="table table-sm table-striped table-bordered " cellspacing="0" width="100%">
         <thead class="thead-dark">
         <th scope="col" style="color:#ffffff; font-family: Roboto Condensed;">Username</th>
@@ -52,6 +51,8 @@
         </th>
         </thead>
         <tbody>
+            <input value="<%= username %>" name="requestusername" style="display: none;">
+            <input value="<%= id %>" name="reqID" style="display: none;">
             <% users.forEach(function(user) { %>
               <tr>
                 <td><%= user.username %></td>

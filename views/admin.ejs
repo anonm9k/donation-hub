@@ -26,6 +26,7 @@
                 <% id = admin.requests[i][0] %>
                 <% hospital = admin.hospitalName %>
                 <% bgroup = admin.requests[i][2] %>
+                <% username = admin.requests[i][3] %>
                 <a class="dropdown-item" href="#" style="background-color: white;">
                     <div class="container" style="width:100%">
                         <div class="row" style="padding: 0;">
@@ -36,6 +37,7 @@
                             <div class="col-sm-2">
                                 <form action="/reqAllow" method="POST">
                                     <input type="text" value=" <%= id %> " name="id" style="display: none;">
+                                    <input type="text" value=" <%= username %> " name="username" style="display: none;">
                                     <input type="text" value=" <%= bgroup %> " name="bgroup" style="display: none;">
                                     <!--<input type="text" value=" <%= admin.requests[i][0] %> " name="id" style="display: none;"> -->
                                     <button type="submit" class="btn btn-success btn-sm"><b>Allow</b></button>
@@ -102,6 +104,10 @@
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser-1 %></span></p>
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <span style="color:#c72c41"><%= totalRequests %></span> </p>
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <span style="color:#ee4540"><%= totalDonations %></span></p>
+                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed; display: inline-block;">Number of queues: <span style="color:#ee4540"><%= admin.queue.length %></p>
+                        <a href="/queues">
+                            <button class="btn btn-outline-info btn-sm" style="margin-bottom: 1%; margin-left:3%">Queues</button>
+                        </a>
                 </div>
                 <div class="col-sm">
                     <canvas id="chart" height="200" width="300"></canvas>

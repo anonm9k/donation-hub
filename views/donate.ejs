@@ -4,7 +4,58 @@
     <!-- Navbar -->
 <nav class="navbar navbar-dark">
     <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
-    <a href="/notifications"><i class="fa fa-envelope fa-1g" aria-hidden="true" id="notification-icon"></i></a>
+    <div class="dropdown" style="text-align: center;">
+        <button class="btn btn-light"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="#" class="noti-icon"><i class="fa fa-envelope notification-icon" aria-hidden="true"></i></a>
+            <span class="badge badge-pill badge-primary" style=" display: none; top:-7px; left:-6px;"><%= user.requests.length %></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: auto;
+        left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);">
+        <% if (user.requests.length > 0) { %>
+            <script>
+                document.querySelector(".notification-icon").style.color = 'red';
+                document.querySelector(".badge").style.display = 'inline-block';
+            </script>
+            <% for (i = 0; i < user.requests.length; i++) { %>
+                <a class="dropdown-item" href="#" style="background-color: white;">
+                    <div class="container" style="width:100%">
+                        <div class="row" style="padding: 0;">
+                            <div class="col-sm-10">
+                                <p style="font-size: 13px; font-family: roboto condensed; padding-top: 10px; margin-right:100px">
+                                    <b><span style="color: green">Congratulations!</span> <span style="color: yellow">your donation just saved a life</span></b>
+                                </p> 
+                            </div>
+                            <div class="col-sm-2">
+                                <form action="/reqDeny" method="POST">
+                                    <button type="submit" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+              <% } %>
+            <% } %>
+            <% if (user.requests.length == 0) { %>
+                <script>
+                    document.querySelector(".notification-icon").style.color = 'grey';
+                </script>
+                    <a class="dropdown-item" href="#" style="background-color: white;">
+                        <div class="container">
+                            <div class="row" style="padding: 0;">
+                                <div class="col-sm-12">
+                                    <p style="font-size: 13px; font-family: roboto condensed; margin-right: 100px; padding-top: 10px;">
+                                        No notifications
+                                    </p> 
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
+        </div>
+    </div>
     <div>
         <button id="open-reset-modal" class="btn btn-warning btn-sm"><b>Reset password</b></button>
         <a href="/logout" class="btn btn-outline-danger btn-sm" role="button"><b>Logout</b></a>
@@ -58,7 +109,6 @@
         </div>
     </div>
     <div class="jumbotron">
-        <a href="/donated" class="btn btn-outline-success col-sm-2" role="button">Donate</a>
         <a href="#" class="btn btn-outline-danger col-sm-2 btns request" role="button" id="open-request-modal">Request</a>
     </div>
 </div>
