@@ -69,7 +69,9 @@
             <div class="col-sm" style="margin-top: 5%;">
                 <div class="row">
                 <p class="h3" style="padding-bottom: 3%; font-family: arial;">Your personal info</p> 
-                <button id="open-update-modal" class="btn btn-outline-info btn-sm" style="height: 50%; margin-left: 2%;">Update</button>
+                <button class="btn btn-outline-info btn-sm" style="height: 30px; margin-left: 2%;" data-toggle="modal" data-target="#update-form-modal">
+                    Update
+                </button>
                 </div>
                 <p><b>Username: </b><%= user.username %></p>
                 <p><b>Email: </b><%= user.email %></p>
@@ -83,9 +85,26 @@
                 <p class="h3" style="font-family: arial;">Your donations and requests history:</p>
                 <!-- Chart canvas -->
                 <canvas id="chart" height="200" width="300"></canvas>
+                <p style="display: none;" id="request"><%= eachMonthRecieves %></p>
+                <p style="display: none" id="donate"><%= eachMonthDonates %></p>
                 <script>
-                    //document.getElementById("eachMonthDonates").innerText;
-                    var data = [0,0,0,1,4,1,2,4,1,2,7,8]
+
+                    var numbers1 = document.getElementById("request").innerText,
+                    request = [],
+                    sNumber1 = numbers1.toString();
+                    for (var i = 0, len = sNumber1.length; i < len; i += 1) {
+                        request.push(+sNumber1.charAt(i));
+                    }
+                    var requestData = request;
+
+                    var numbers2 = document.getElementById("donate").innerText,
+                    donate = [],
+                    sNumber2 = numbers2.toString();
+                    for (var j = 0, len = sNumber2.length; j < len; j += 1) {
+                        donate.push(+sNumber2.charAt(j));
+                    }
+                    var donateData = donate;
+                    
                     const ctx = document.getElementById('chart').getContext('2d');
                     const myLineChart = new Chart(ctx, {
                             type: 'line',
@@ -94,12 +113,12 @@
                                         datasets: [{
                                             label: 'Total requests per month',
                                             borderColor: 'rgb(211,33,45)',
-                                            data: data
+                                            data: requestData
                                         },
                                         {
                                             label: 'Total donations per month',
                                             borderColor: 'rgb(132,222,2)',
-                                            data: [0,0,0,0,13,0,12,0,0,20,0,0]
+                                            data: donateData
                                         }]
                                     },
                             options: {}
@@ -109,91 +128,90 @@
         </div>
     </div>
     <div class="jumbotron">
-        <a href="#" class="btn btn-outline-danger col-sm-2 btns request" role="button" id="open-request-modal">Request</a>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#request-form-modal">
+            Request
+        </button>
     </div>
 </div>
 </div>
 
 <!-- request form modal -->
-
-<div class="request-form-modal">
-    <div class="request-modal-content">
-        <form action="/requested" method="post">
-            <div class="form-group row">
-                <label for="bgroup" class="col-sm-3 col-form-label" style="padding: 0;">Blood Group:</label>
-                <div class="col-md-3">
-                  <select name="bgroup" class="selectpicker" style="margin-top: 2%;" data-style="btn-outline-danger" title="Choose blood group">
-                    <option value="O Negative">O Negative</option>
-                    <option value="O Positive">O Positive</option>
-                    <option value="A Negative">A Negative</option>
-                    <option value="A Positive">A Positive</option>
-                    <option value="B Negative">B Negative</option>
-                    <option value="B Positive">B Positive</option>
-                    <option value="AB Negative">AB Negative</option>
-                    <option value="AB Positive">AB Positive</option>
-                  </select>
+<div class="modal fade" id="request-form-modal" tabindex="-1" role="dialog" aria-labelledby="request-form-modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content" style="text-align: center;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="request-form-modalTitle" style="font-family: roboto condensed; color: #dc3545"><b>Send request</b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/requested" method="post">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                      <select name="bgroup" class="selectpicker" style="margin-top: 2%;" data-style="btn-outline-danger" title="Choose blood group">
+                        <option value="O Negative">O Negative</option>
+                        <option value="O Positive">O Positive</option>
+                        <option value="A Negative">A Negative</option>
+                        <option value="A Positive">A Positive</option>
+                        <option value="B Negative">B Negative</option>
+                        <option value="B Positive">B Positive</option>
+                        <option value="AB Negative">AB Negative</option>
+                        <option value="AB Positive">AB Positive</option>
+                      </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="city" class="col-sm-3 col-form-label">City:</label>
-                <div class="col-sm-3">
-                    <select name="city" class="selectpicker" data-style="btn-outline-danger" title="Choose city">
-                        <option value="Jeddah">Jeddah</option>
-                        <option value="Makkah">Makkah</option>
-                    </select>                  
+                <div class="form-group row">
+                    
+                    <div class="col-sm-3">
+                        <select name="city" class="selectpicker" data-style="btn-outline-danger" title="Choose city">
+                            <option value="Jeddah">Jeddah</option>
+                            <option value="Makkah">Makkah</option>
+                        </select>                  
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="hospital" class="col-sm-3 col-form-label">Hospital:</label>
-                <div class="col-sm-3">
-                    <select name="hospital" class="selectpicker" data-style="btn-outline-danger" title="Choose Hospital">
-                        <% admins.forEach(function(admin) { %>
-                            <option value="<%= admin.hospitalName %>"> <%= admin.hospitalName %> </option>
-                        <% }) %>
-                    </select>                  
+                <div class="form-group row">
+                    
+                    <div class="col-sm-3">
+                        <select name="hospital" class="selectpicker" data-style="btn-outline-danger" title="Choose Hospital">
+                            <% admins.forEach(function(admin) { %>
+                                <option value="<%= admin.hospitalName %>"> <%= admin.hospitalName %> </option>
+                            <% }) %>
+                        </select>                  
+                    </div>
                 </div>
-            </div>
-            <div style="text-align: center;">
-              <a href="#" role="button" class="btn btn-light" id="close-request-modal">Cancel</a>
-              <button type="submit" class="btn btn-danger">Request</button>
-            </div>  
-          </form>
-        <script type="text/javascript">
-            document.getElementById("open-request-modal").addEventListener('click', 
-                function() {
-                    document.querySelector(".request-form-modal").style.display = 'flex';
-                });
-            document.getElementById("close-request-modal").addEventListener('click', 
-                function() {
-                    document.querySelector(".request-form-modal").style.display = 'none';
-                });
-        </script>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Request</button>
+                </div>
+            </form>
+      </div>
     </div>
-</div>
+  </div>
 
 <!-- update modal form -->
-<div class="update-form-modal">
-    <div class="form-modal-content">
+<div class="modal fade" id="update-form-modal" tabindex="-1" role="dialog" aria-labelledby="update-form-modalTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="update-form-modalTitle" style="font-family: roboto condensed; color: #dc3545"><b>Update</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <form action="/updateinfo" method="post">
+        <div class="modal-body">
             <%- include('partials/form') %>
-            <div style="text-align: center;">
-              <a href="#" role="button" class="btn btn-light" id="close-update-modal">Cancel</a>
-              <button type="submit" class="btn btn-danger">Update</button>
-            </div>  
-          </form>
-        <script type="text/javascript">
-            document.getElementById("open-update-modal").addEventListener('click', 
-                function() {
-                    document.querySelector(".update-form-modal").style.display = 'flex';
-                });
-            document.getElementById("close-update-modal").addEventListener('click', 
-                function() {
-                    document.querySelector(".update-form-modal").style.display = 'none';
-                });
-        </script>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Update</button>
+        </div>
+        </form>
     </div>
 </div>
-
+</div>
 <!-- password reset modal form -->
 <div class="reset-modal">
     <div class="reset-modal-content">
@@ -227,6 +245,9 @@
 </div>
 
 
+  
+
+  
 
 
 <%- include('partials/footer') %>

@@ -1,6 +1,19 @@
 <%- include('partials/header') %>
 <nav class="navbar navbar-dark">
-  <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <style>
+        #user-icon {
+            color: grey;
+            padding-right: 2%;
+            margin-top: -1%;
+        }
+        #user-icon:hover {
+            color: #dc3545;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+    </style>
+    <a class="navbar-brand" href="#" style="color: #596e79"><i class="fa fa-medkit fa-1g" aria-hidden="true" style="color:#eb3f39"></i>  donation<b>Hub</b></a>
+    <a href="/admin" id="user-icon"><i class="fa fa-user" aria-hidden="true"></i> <%= user.username %></a>
 </nav>
 <hr>
 <div class="container">
@@ -14,9 +27,9 @@
                 <div class="card-header" style="text-align: center; font-family: roboto condensed;"><b>Queue number <%= qno %> </b></div>
                 <div class="card-body">
                     <h5 class="card-title" style="font-family: roboto condensed;"><b>User: <%= queue[1] %></b></h5>
-                    <p class="card-text lead">Total number of users recieved SMS: <%= queue[2].length %></p>
+                    <p class="card-text lead">Total number of users recieved SMS: <%= queue[3].length %></p>
                     <div style="text-align: center;">
-                        <input value="<%= queue[2] %>" style="display: none" name="username">
+                        <input value="<%= queue[3] %>" style="display: none" name="username">
                         <button class="btn btn-outline-danger btn-sm" type="submit"> Open Queue </button>
                         </form>
                         <form action="/delqueue" method="post" style="display: inline-block;">
@@ -27,10 +40,9 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted"><p style="color:grey">Created at 9th june 12:4am</p></small>
+                    <small class="text-muted"><p style="color:grey">Created on <%= queue[2] %></p></small>
                 </div>
             </div>
-            
             <% qno = qno + 1 %>
         <% }) %>
         </div>

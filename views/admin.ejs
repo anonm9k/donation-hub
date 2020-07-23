@@ -83,7 +83,7 @@
 
 <!-- Main-->
 <div class="container">
-    <div >
+    <div>
         <div class="container-fluid">
             <% if (admin.hospitalName == "") { %>
             <div class="alert alert-danger" role="alert">
@@ -101,7 +101,7 @@
             <div class="row" style="margin-top:7%">
                 <div class="col-sm" >
                     <p class="h1" style="padding-bottom: 3%; font-family: Roboto Condensed;"><b>Dashboard</b></p>
-                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser-1 %></span></p>
+                    <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total users: <span style="color:#ff0000"><%= totalUser %></span></p>
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of requests: <span style="color:#c72c41"><%= totalRequests %></span> </p>
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed;">Total number of donations: <span style="color:#ee4540"><%= totalDonations %></span></p>
                     <p class="lead" style="color:#3b3b3b; font-family: Roboto Condensed; display: inline-block;">Number of queues: <span style="color:#ee4540"><%= admin.queue.length %></p>

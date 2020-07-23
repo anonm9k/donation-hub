@@ -85,15 +85,27 @@ app.get("/register", function(req, res) {
 })
 
 app.get("/donate", function(req, res) {
-    // iterate over recieved & donates
+    // request each month
     eachMonthRecieves = [0,0,0,0,0,0,0,0,0,0,0,0]
     req.user.recieveDates.forEach(element => {
         eachMonthRecieves[element[5]-1] = eachMonthRecieves[element[5]-1] + 1
     });
+    recieve = ''
+    eachMonthRecieves.forEach(function(n) {
+        recieve = recieve + n.toString()
+    })
+    eachMonthRecieves = parseInt(recieve, 10)
+
+    // donate each month
     eachMonthDonates = [0,0,0,0,0,0,0,0,0,0,0,0]
     req.user.donationDates.forEach(element => {
         eachMonthDonates[element[5]-1] = eachMonthDonates[element[5]-1] + 1
     });
+    donate = ''
+    eachMonthDonates.forEach(function(n) {
+        donate = donate + n.toString()
+    })
+    eachMonthDonates = parseInt(donate, 10)
     // req.user.id is the current user id
     if (req.isAuthenticated()) {
         User.find({"isAdmin": true}, function (err, foundUser) {
@@ -154,8 +166,11 @@ app.get("/requested", function(req, res) {
 })
 
 app.get("/queues", function(req, res) {
-    queues = req.user.queue
-    res.render("queues", {queues: queues})
+    res.render("queues", {queues: req.user.queue, user: req.user})
+})
+
+app.get("/delqueue", function(req, res) {
+    res.redirect("/queues")
 })
 // post requests
 
@@ -398,10 +413,15 @@ app.post("/donated", function(req, res) {
 })
 
 app.post("/queues", function(req, res) {
+        // keep time
+        const today = new Date()
+        const datentime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" at "+ 
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
         username = req.body.requestusername.trim()
-        reqID = req.body.reqID.trim()
+        reqID = req.body.reqID.trim() // request id
         users = req.body.username
-        queue = [reqID, username, users]
+        queue = [reqID, username, datentime, users]
         
         User.findOne({"hospitalName": req.user.hospitalName}, function (err, foundAdmin) {
             if (err) { console.log(err) }
@@ -409,6 +429,7 @@ app.post("/queues", function(req, res) {
                     if(foundAdmin) {
                         requests = foundAdmin.requests
                         for (i=0; i < requests.length; i++) {
+                            // if user clicks send sms to create queue, request will be deleted
                             if(requests[i][0] == reqID) {
                                 requests.splice(i, 1)
                                 foundAdmin.save(function(err) {
@@ -441,7 +462,6 @@ app.post("/delqueue", function(req, res) {
     }
 })
 
-
 app.post("/queuedUsers", function(req, res) {
     users = req.body.username.split(',')
     User.find({"username": {$in: users}}, function(err, foundUser) {
@@ -459,4 +479,3 @@ if (port == null || port == "") {
 app.listen(port, function() {
     console.log("Server started successfully...")
 })
-
